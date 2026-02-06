@@ -2,3 +2,5 @@
 uv.lock
 .venv*
 .idea*
+
+*.csv
