@@ -1,4 +1,4 @@
 .python-version
 uv.lock
-.venv
-.idea
+.venv*
+.idea*
