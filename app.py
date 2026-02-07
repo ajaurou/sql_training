@@ -35,11 +35,11 @@ with st.sidebar:
     )
 
 
-solution_str = """
+SOLUTION_STR = """
     select * from beverages
     cross join food_items"""
 
-solution_df = duckdb.query(solution_str).df()
+solution_df = duckdb.query(SOLUTION_STR).df()
 
 st.header("Enter your code:")
 query = st.text_area(label="Your SQL code here", key="user_input")
@@ -70,4 +70,4 @@ with tab2:
     st.dataframe(solution_df)
 
 with tab3:
-    st.write(f"Answer: {solution_str}")
+    st.write(f"Answer: {SOLUTION_STR}")
