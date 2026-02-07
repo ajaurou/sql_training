@@ -22,6 +22,12 @@ ignore = [
 quote-style = "double"
 indent-style = "space"
 
+[tool.pylint]
+disable = [
+    "missing-module-docstring",
+    "missing-class-docstring", 
+    "missing-function-docstring",
+]
 [dependency-groups]
 dev = [
     "pylint>=4.0.4",
