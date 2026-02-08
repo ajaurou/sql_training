@@ -1,7 +1,9 @@
-import streamlit as st
+import os
 
-with st.sidebar:
-    add_radio = st.radio(
-        "Choose a shipping method",
-        ("Standard (5-15 days)", "Express (2-5 days)")
-    )
+import duckdb
+
+print("data" in os.listdir("./"))
+
+conn = duckdb.connect("data/exercices_sql_tables.duckdb", read_only=True)
+test = conn.execute("SELECT * FROM memory_state").df()
+print(test)
