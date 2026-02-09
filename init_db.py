@@ -16,10 +16,12 @@ data = {
     "exercice_name": ["beverages_and_food"],
     "tables": [["beverages", "food_items"]],
     "last_reviewed": ["2000-01-01"],
+    "query_solution": ["select * from beverages cross join food_items"],
 }
 
 memory_state_df = pd.DataFrame(data)
-conn.execute("CREATE TABLE IF NOT EXISTS memory_state AS SELECT * FROM memory_state_df")
+conn.execute("DROP TABLE IF EXISTS memory_state")
+conn.execute("CREATE TABLE memory_state AS SELECT * FROM memory_state_df")
 
 # --------------------------------------------------------------------------------------
 # CROSS JOIN EXERCICE
