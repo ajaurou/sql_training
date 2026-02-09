@@ -16,7 +16,12 @@ with st.sidebar:
         placeholder="Select a theme",
     )
 
-    exercices = conn.execute(f"select * from memory_state where theme = '{theme}'").df()
+    exercices = (
+        conn.execute(f"select * from memory_state where theme = '{theme}'")
+        .df()
+        .sort_values("last_reviewed")
+        .reset_index(drop=True)
+    )
     st.write(exercices)
 
     exercice_name = exercices.loc[0, "exercice_name"]
