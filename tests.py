@@ -5,5 +5,6 @@ import duckdb
 print("data" in os.listdir("./"))
 
 conn = duckdb.connect("data/exercices_sql_tables.duckdb", read_only=True)
-test = conn.execute("SELECT * FROM memory_state").df()
-print(test)
+exercices = conn.execute("SELECT * FROM memory_state").df()
+exercices_tables = exercices.loc[0, "tables"]
+print(exercices_tables)
