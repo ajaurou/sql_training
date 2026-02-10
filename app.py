@@ -1,6 +1,9 @@
 import duckdb
 import streamlit as st
 
+if "data" not in os.listdir("./"):
+    os.mkdir("data")
+
 conn = duckdb.connect("data/exercices_sql_tables.duckdb", read_only=False)
 
 
