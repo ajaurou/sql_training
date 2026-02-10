@@ -16,7 +16,7 @@ conn = duckdb.connect("data/exercices_sql_tables.duckdb", read_only=False)
 # EXERCICE LIST
 # --------------------------------------------------------------------------------------
 data = {
-    "theme": ["cross_joins", "cross_joins"],
+    "theme": ["Cross Join", "Cross Joins"],
     "exercice_name": ["beverages_and_food", "sizes_and_trademarks"],
     "tables": [["beverages", "food_items"], ["sizes", "trademarks"]],
     "last_reviewed": ["2001-01-01", "2000-01-01"],
@@ -67,3 +67,5 @@ Lewis
 
 trademarks = pd.read_csv(io.StringIO(trademarks))
 conn.execute("CREATE TABLE IF NOT EXISTS trademarks AS SELECT * FROM trademarks")
+
+conn.close()
