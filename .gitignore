@@ -5,4 +5,4 @@
 *.csv
 
 tests.py
-data/*
+data/exercices_sql_tables.duckdb
