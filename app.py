@@ -4,6 +4,7 @@ import subprocess
 import sys
 
 import duckdb
+import pandas as pd
 import streamlit as st
 
 app_logger = st.logger.get_logger(__name__)
@@ -18,10 +19,34 @@ if "data" not in os.listdir("./"):
 if "exercices_sql_tables.duckdb" not in os.listdir("./data/"):
     app_logger.info(os.listdir("./data/"))
     app_logger.info("init_db.py is running to create the database")
-    subprocess.run([sys.executable, "init_db.py"], capture_output=True, text=True)
+    subprocess.run([sys.executable, "init_db.py"], capture_output=True, text=True)  # noqa: PLW1510, S603
     app_logger.info("Database created")
 
 conn = duckdb.connect("data/exercices_sql_tables.duckdb", read_only=False)
+
+
+def check_user_query(user_query: str, solution_df: pd.DataFrame) -> None:
+    """Check the user query against the solution and give feedback on
+    the number of columns and the values.
+
+    Args:
+        user_query (str): user query to check
+        solution_df (pd.DataFrame): solution dataframe
+
+    """  # noqa: D205
+    result = conn.execute(user_query).df()
+    st.dataframe(result)
+
+    if len(result.columns) != len(solution_df.columns):
+        st.write("Your code does not have the right number of columns")
+    else:
+        st.write("Your code has the right number of columns")
+
+    try:
+        result = result[solution_df.columns]
+        st.dataframe(result.compare(solution_df))
+    except KeyError as e:
+        print(f"{e} - Columns naming is incorrect")
 
 
 st.write("""
@@ -65,19 +90,7 @@ st.header("Enter your code:")
 query = st.text_area(label="Your SQL code here", key="user_input")
 
 if query:
-    result = conn.execute(query).df()
-    st.dataframe(result)
-
-    if len(result.columns) != len(solution_df.columns):
-        st.write("Your code does not have the right number of columns")
-    else:
-        st.write("Your code has the right number of columns")
-
-    try:
-        result = result[solution_df.columns]
-        st.dataframe(result.compare(solution_df))
-    except KeyError as e:
-        print(f"{e} - Columns naming is incorrect")
+    check_user_query(query, solution_df)
 
 
 tab2, tab3 = st.tabs(["Tables", "Solutions"])
